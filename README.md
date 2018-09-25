@@ -1,58 +1,92 @@
 ## Project: Build a Traffic Sign Recognition Program
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
-Overview
----
-In this project, you will use what you've learned about deep neural networks and convolutional neural networks to classify traffic signs. You will train and validate a model so it can classify traffic sign images using the [German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset). After the model is trained, you will then try out your model on images of German traffic signs that you find on the web.
+**Build a Traffic Sign Recognition Project**
 
-We have included an Ipython notebook that contains further instructions 
-and starter code. Be sure to download the [Ipython notebook](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb). 
-
-We also want you to create a detailed writeup of the project. Check out the [writeup template](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup. The writeup can be either a markdown file or a pdf document.
-
-To meet specifications, the project will require submitting three files: 
-* the Ipython notebook with the code
-* the code exported as an html file
-* a writeup report either as a markdown or pdf file 
-
-Creating a Great Writeup
----
-A great writeup should include the [rubric points](https://review.udacity.com/#!/rubrics/481/view) as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
-
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
-
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
-
-The Project
----
 The goals / steps of this project are the following:
-* Load the data set
+* Load the data set (see below for links to the project data set)
 * Explore, summarize and visualize the data set
 * Design, train and test a model architecture
 * Use the model to make predictions on new images
 * Analyze the softmax probabilities of the new images
 * Summarize the results with a written report
 
-### Dependencies
-This lab requires:
 
-* [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit)
+### Data Set Summary & Exploration
 
-The lab environment can be created with CarND Term1 Starter Kit. Click [here](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) for the details.
+There are totally 42 types of traffic signs in the dataset. They dataset is heavily imbalanced as well based on the bar chart below.
 
-### Dataset and Repository
+[sign_labels.png](sign_labels.png)
 
-1. Download the data set. The classroom has a link to the data set in the "Project Instructions" content. This is a pickled dataset in which we've already resized the images to 32x32. It contains a training, validation and test set.
-2. Clone the project, which contains the Ipython notebook and the writeup template.
-```sh
-git clone https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project
-cd CarND-Traffic-Sign-Classifier-Project
-jupyter notebook Traffic_Sign_Classifier.ipynb
-```
+I applied data normalization to train, validation, and test datasets by subracting 128.0 and dividing by 128.0 which was the recommendation according given in the notebook.
 
-### Requirements for Submission
-Follow the instructions in the `Traffic_Sign_Classifier.ipynb` notebook and write the project report using the writeup template as a guide, `writeup_template.md`. Submit the project code and writeup document.
+### Model Architecture
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+| Layer         		|     Description	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Input         		| 32x32x3 							| 
+| Convolution 	| 1x1 stride, VALID padding, outputs 28x28x6 	|
+| RELU					|												|
+| Max pooling	      	| 2x2 stride,  outputs 14x14x6 				|
+| Convolution     | 1 x 1 stride, VALID padding, outputs 10x10x16
+| RELU    | |      									|
+| Max pooling	      	| 2x2 stride,  outputs 5x5x6 |
+| Flatten    | outputs 400 |  
+| Flatten    | outputs 120 |  
+| RELU    | |   
+| Fully Connected    | outputs 84 |   
+| RELU    | |   
+| Fully Connected    | outputs 83 |
 
+### Model Training
+Created placed holders for X and y where
+
+- X = input images
+- y = output labels
+
+For optimizing the difference between actual and predictions, I am using the following
+
+- Activation = softmax, since we are doing multi classification
+- Optimizer = Adam
+- Loss fn = cross entropy
+
+For training the model
+
+- Batch size = 64
+- Epoch count = 25
+
+I tested multiple epochs and ended up using 16 because I was getting better training and validation accuracies at epoch=16
+
+- Training set accuracy = 99 %
+- Validation set accuracy = 92.9 %
+- Random five images accuracy = 100 %
+  
+I tried LeNet architecture which was taught in the class and recommended in the notebook.
+
+### Test model on new images
+
+I pulled some images from official site and converted the ppm images to png images.
+
+I got 100 % accuracy on all the test images. 
+
+
+[00003.png](test_images/00003.png)
+
+[00006.png](test_images/00006.png)
+
+[00009.png](test_images/00009.png)
+
+[00011.png](test_images/00011.png)
+
+[00031.png](test_images/00031.png)
+
+My prediction results are 
+
+[prediction_results_on_5_test_images.png](test_images/prediction_results_on_5_test_images.png)
+
+### Softmax probabilities for the above five test images
+
+- No entry = 1.0
+- Turn right ahead = 1.0
+- Ahead only = 10.0
+- General caution = 1.0
+- Speed limit = 1.0
