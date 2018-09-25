@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 
 There are totally 42 types of traffic signs in the dataset. They dataset is heavily imbalanced as well based on the bar chart below.
 
-[sign_labels.png](sign_labels.png)
+![sign_labels.png](sign_labels.png)
 
 I applied data normalization to train, validation, and test datasets by subracting 128.0 and dividing by 128.0 which was the recommendation according given in the notebook.
 
@@ -69,19 +69,19 @@ I pulled some images from official site and converted the ppm images to png imag
 I got 100 % accuracy on all the test images. 
 
 
-[00003.png](test_images/00003.png)
+![00003.png](test_images/00003.png)
 
-[00006.png](test_images/00006.png)
+![00006.png](test_images/00006.png)
 
-[00009.png](test_images/00009.png)
+![00009.png](test_images/00009.png)
 
-[00011.png](test_images/00011.png)
+![00011.png](test_images/00011.png)
 
-[00031.png](test_images/00031.png)
+![00031.png](test_images/00031.png)
 
 My prediction results are 
 
-[prediction_results_on_5_test_images.png](test_images/prediction_results_on_5_test_images.png)
+![prediction_results_on_5_test_images.png](test_images/prediction_results_on_5_test_images.png)
 
 ### Softmax probabilities for the above five test images
 
